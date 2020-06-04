@@ -26,6 +26,12 @@ instance Show QCGen where
 instance Read QCGen where
   readsPrec n xs = [(QCGen g, ys) | (g, ys) <- readsPrec n xs]
 
+#ifdef MIN_VERSION_random
+instance RandomGen SMGen where
+    next = nextInt
+    split = splitSMGen
+#endif
+
 instance RandomGen QCGen where
   split (QCGen g) =
     case split g of
